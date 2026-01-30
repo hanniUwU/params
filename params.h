@@ -13,6 +13,7 @@
 #endif
 
 #define TYPE_uint32_t PARAM_TYPE_UINT32
+#define TYPE_size_t PARAM_TYPE_SIZET
 #define TYPE_double   PARAM_TYPE_DOUBLE
 #define TYPE_char_ptr PARAM_TYPE_STRING
 
@@ -44,6 +45,8 @@ static inline void script_default_generate() {
 
 	#define PRINT_PARAM_uint32_t(name, type, default_value) \
 		fprintf(fp, "export PARAM_" #name "=%lu\n", (unsigned long)default_value);
+	#define PRINT_PARAM_size_t(name, type, default_value) \
+		fprintf(fp, "export PARAM_" #name "=%zu\n", (size_t)default_value);
 	#define PRINT_PARAM_double(name, type, default_value) \
 		fprintf(fp, "export PARAM_" #name "=%g\n", (double)default_value);
 	#define PRINT_PARAM_char_ptr(name, type, default_value) \
@@ -79,6 +82,12 @@ static inline Parameters* parameters_read() {
 			switch (param_descs[i].type) {
 			case PARAM_TYPE_UINT32:
 				*(uint32_t*) param_descs[i].value = strtol(env, NULL, 10);
+				break;
+			case PARAM_TYPE_SIZET:
+				// TODO: add checks for overlflow etc.
+				char* endptr = NULL;
+				uintmax_t tmp = strtoumax(env, &endptr, 10);
+				*(size_t*) param_descs[i].value = (size_t)tmp;
 				break;
 			case PARAM_TYPE_DOUBLE:
 				*(double*) param_descs[i].value = strtod(env, NULL);
