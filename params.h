@@ -7,13 +7,14 @@
 #include <string.h>
 #include <stdbool.h>
 #include <sys/stat.h>
+#include <inttypes.h>
 
 #ifndef XPARAMS
 #error "There is no definion for the X-macro before the include of params.h. Define XPARAMS(X)"
 #endif
 
 #define TYPE_uint32_t PARAM_TYPE_UINT32
-#define TYPE_size_t PARAM_TYPE_SIZET
+#define TYPE_size_t   PARAM_TYPE_SIZET
 #define TYPE_double   PARAM_TYPE_DOUBLE
 #define TYPE_char_ptr PARAM_TYPE_STRING
 
